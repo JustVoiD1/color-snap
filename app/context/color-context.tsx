@@ -1,7 +1,6 @@
 'use client'
 import { ColorContextType, HSBColor } from "@/lib/types";
 import { createContext, useState } from "react";
-import { generateRandomColor } from "../components/target";
 
 export const ColorContext = createContext<ColorContextType | undefined>(undefined)
 export function ColorProvider({ children }: {

@@ -1,43 +1,45 @@
 'use client'
 import React, { Activity, useContext, useEffect, useState } from 'react'
 import Game from './game'
-import Target, { generateRandomColor } from './target'
-import Counter from './counter'
-import { ColorContext } from '../context/colorContext'
+import Target from './target'
+import { ColorContext } from '../context/color-context'
+import { GameContext } from '../context/game-context'
+import RoundResult from './round-result'
+import FinalResult from './final-result'
 
 const Playground = () => {
-    const [showTarget, setShowTarget] = useState(true)
 
 
+    const gameContext = useContext(GameContext)
+    if (!gameContext) {
+        throw new Error("context must be used within ColorProvider")
+    }
     const colorContext = useContext(ColorContext)
     if (!colorContext) {
         throw new Error("context must be used within ColorProvider")
     }
-    const { setTargetColor } = colorContext
+    const { phase, round } = gameContext
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowTarget(false)
-        }, 5000)
-        setTargetColor(prev => generateRandomColor())
 
-        return () => {
-            clearTimeout(timer)
-            setTargetColor(prev => prev)
-
-        }
-    }, [])
 
     return (
-        <>
-            {showTarget ? <div className='relative h-full'>
+        <div className="w-4xl h-150 flex justify-center items-center gap-2">
 
-                <Activity mode={showTarget ? "visible" : "hidden"}>
-                    <Counter duration={5} className='absolute top-2 right-5 w-fit h-fit' />
-                    <Target />
-                </Activity>
-            </div> : <Game />}
-        </>
+
+            <Activity mode={phase === 'target' ? "visible" : "hidden"}>
+                <Target key={round} />
+            </Activity>
+            <Activity mode={phase === 'game' ? "visible" : "hidden"}>
+                <Game key={round}/>
+            </Activity>
+            <Activity mode={phase === 'roundResult' ? "visible" : "hidden"}>
+                <RoundResult key={round}/>
+            </Activity>
+            <Activity mode={phase === 'finalResult' ? "visible" : "hidden"}>
+                <FinalResult />
+            </Activity>
+
+        </div>
     )
 }
 
