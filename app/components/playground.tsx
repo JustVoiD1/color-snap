@@ -7,7 +7,7 @@ import { GameContext } from '../context/game-context'
 import RoundResult from './round-result'
 import FinalResult from './final-result'
 
-const Playground = () => {
+const Playground = ({ className }: { className?: string }) => {
 
 
     const gameContext = useContext(GameContext)
@@ -23,17 +23,17 @@ const Playground = () => {
 
 
     return (
-        <div className="w-4xl h-150 flex justify-center items-center gap-2">
+        <div className={className}>
 
 
             <Activity mode={phase === 'target' ? "visible" : "hidden"}>
                 <Target key={round} />
             </Activity>
             <Activity mode={phase === 'game' ? "visible" : "hidden"}>
-                <Game key={round}/>
+                <Game key={round} />
             </Activity>
             <Activity mode={phase === 'roundResult' ? "visible" : "hidden"}>
-                <RoundResult key={round}/>
+                <RoundResult key={round} />
             </Activity>
             <Activity mode={phase === 'finalResult' ? "visible" : "hidden"}>
                 <FinalResult />

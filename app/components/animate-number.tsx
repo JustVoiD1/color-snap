@@ -29,7 +29,7 @@ export default function AnimatedNumber({
         const controls = animate(count, content, {
             delay,
             duration,
-            ease: "easeOut"
+            ease: [0, 0, 0.05, 1]
         })
 
         return () => controls.stop()

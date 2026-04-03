@@ -34,26 +34,30 @@ const Game = () => {
         submitScore(score)
     }
     useEffect(() => {
-        setHsb({
+        const newColor = {
             h: Math.floor(Math.random() * 361),
             s: Math.floor(Math.random() * 101),
             b: Math.floor(Math.random() * 101),
+        }
+
+        requestAnimationFrame(() => {
+            setHsb(newColor)
         })
     }, [round])
 
-    return (<div className="h-full flex flex-col justify-center items-center gap-2 overflow-hidden">
-        <div className="flex flex-1 justify-center items-center gap-5">
+    return (<div className="h-full w-full flex flex-col justify-center items-center gap-2 overflow-hidden">
+        <div className="flex flex-1 w-full justify-center items-center gap-5">
 
 
             <div className={cn(
-                `w-4xl h-full flex justify-between items-end text-black text-center rounded-2xl`,
+                `w-full h-full flex justify-between items-end text-black text-center`,
                 'shadow-[0_1px_1px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
             )}
                 style={{
                     backgroundColor: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`,
                 }}
             >
-                <ColorPicker />
+                <ColorPicker className="flex h-full justify-between items-center" />
 
                 {/* <Link href={'/result'} className={cn(
                     "p-2 text-neutral-50 font-light text-3xl rounded-full bg-black",

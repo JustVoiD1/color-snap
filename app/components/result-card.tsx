@@ -35,9 +35,9 @@ const ResultCard = () => {
 
     
 
-    return (<div className={'font-[suisse] h-100 flex flex-col justify-center items-center w-3/4 rounded-3xl gap-5'}>
+    return (<div className={'font-[suisse] h-full md:h-100 flex flex-col justify-center items-center w-full md:w-3/4 md:rounded-3xl overflow-hidden gap-5'}>
         <div className={cn(
-            'h-full flex flex-col justify-center items-center w-full overflow-hidden rounded-3xl',
+            'h-full flex flex-col justify-center items-center w-full overflow-hidden',
             'shadow-[0_1px_1px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
         )}>
             <div className='relative flex-1 w-full'

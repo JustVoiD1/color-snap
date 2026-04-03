@@ -6,7 +6,7 @@ import { hsbToRgb } from '@/lib/tools'
 import { cn } from '@/lib/utils'
 import { GameContext } from '../context/game-context'
 
-const ColorPicker = () => {
+const ColorPicker = ({className}: {className?: string}) => {
     const hueConstraintRef = useRef<HTMLDivElement>(null)
     const saturationConstraintRef = useRef<HTMLDivElement>(null)
     const BrighnessConstraintRef = useRef<HTMLDivElement>(null)
@@ -98,10 +98,10 @@ const ColorPicker = () => {
     }, [round, hsb])
 
 
-    return (<div className='flex h-full justify-between items-center'>
+    return (<div className={className}>
         <div ref={hueConstraintRef}
             className={cn(
-                "h-full w-8 relative rounded-full overflow-hidden",
+                "h-full w-8 relative md:rounded-full overflow-hidden",
                 'shadow-[0_4px_4px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
             )}
             style={{
@@ -111,6 +111,7 @@ const ColorPicker = () => {
         >
             <motion.div
                 drag="y"
+                dragElastic={0}
                 dragMomentum={false}
                 dragConstraints={hueConstraintRef}
                 className={cn(
@@ -127,7 +128,7 @@ const ColorPicker = () => {
             </motion.div>
         </div>
         <div className={cn(
-            "h-full w-8 relative rounded-full overflow-hidden",
+            "h-full w-8 relative md:rounded-full overflow-hidden",
             'shadow-[0_4px_4px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
         )}
             ref={saturationConstraintRef}
@@ -137,6 +138,7 @@ const ColorPicker = () => {
         >
             <motion.div
                 drag="y"
+                dragElastic={0}
                 dragMomentum={false}
                 dragConstraints={saturationConstraintRef}
                 className={cn(
@@ -154,7 +156,7 @@ const ColorPicker = () => {
 
         </div>
         <div className={cn(
-            "h-full w-8 relative rounded-full overflow-hidden",
+            "h-full w-8 relative md:rounded-full overflow-hidden",
             'shadow-[0_4px_4px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
         )}
             ref={BrighnessConstraintRef}
@@ -165,6 +167,7 @@ const ColorPicker = () => {
         >
             <motion.div
                 drag="y"
+                dragElastic={0}
                 dragMomentum={false}
                 dragConstraints={BrighnessConstraintRef}
                 className={cn(
