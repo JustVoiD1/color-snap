@@ -23,7 +23,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     const TOTAL_ROUNDS = 5
 
     const [round, setRound] = useState(1)
-    const [phase, setPhase] = useState<Phase>("target")
+    const [phase, setPhase] = useState<Phase>("finalResult")
     const [scores, setScores] = useState<number[]>([])
 
     const submitScore = (score: number) => {

@@ -25,7 +25,7 @@ const FinalResult = () => {
 
       <div
         className={cn(
-          "h-full flex flex-col bg-zinc-800 text-white justify-center items-center w-full overflow-hidden md:rounded-3xl p-10 gap-8",
+          "h-full flex flex-col bg-black text-white justify-center items-center w-full overflow-hidden md:rounded-3xl p-10 gap-8",
           "shadow-[0_5px_5px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]"
         )}
       >
@@ -46,12 +46,12 @@ const FinalResult = () => {
           </div>
 
           {/* Divider */}
-          <div className="w-full h-px bg-zinc-200" />
+          <div className="w-full h-px my-2 bg-zinc-200" />
 
           {/* Round Scores */}
           <div className="flex flex-col gap-4 w-full items-center">
 
-            <div className="text-xl opacity-70">
+            <div className="text-xl opacity-50 font-extralight">
               Round Scores
             </div>
 
@@ -60,7 +60,7 @@ const FinalResult = () => {
               {scores.map((score, i) => (
                 <div
                   key={i}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 border border-neutral-500 text-lg font-medium"
+                  className="px-4 py-2 rounded-xl bg-neutral-900 border border-neutral-500 text-lg font-medium"
                   style={{ color: scoreColor(score) }}
                 >
                   <AnimatedNumber delay={0.5 + i / 5} duration={1} content={Number(score.toFixed(2))} />

@@ -39,7 +39,10 @@ const Target = () => {
             backgroundColor: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
         }, { duration: 0.3 })
 
-        timerRef.current = setTimeout(() => {
+        timerRef.current = setTimeout(async () => {
+            await animate(scope.current, {
+            backgroundColor: `#000`
+        }, { duration: 0.3 })
             setPhase("game")
         }, 5000)
 

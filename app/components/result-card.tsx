@@ -95,8 +95,8 @@ const ResultCard = () => {
                     onClick={moveNext}
                     className='absolute p-4 bottom-4 right-3 rounded-full cursor-pointer'
                     style={{
-                        color: textColor,
-                        backgroundColor: textColor === "#000000" ? "#ffffff" : "#000000"
+                        backgroundColor: targetTextColor,
+                        color: targetTextColor === "#000000" ? "#ffffff" : "#000000"
                     }}
                     ><NextIcon /></button>
             </div>
