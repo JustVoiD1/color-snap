@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import SendIcon from "./icons/send";
 import { GameContext } from "../context/game-context";
 import { calculateScore } from "@/lib/score";
+import { getContrastText } from "./result-card";
 
 
 
@@ -63,8 +64,12 @@ const Game = () => {
                     "p-2 text-neutral-50 font-light text-3xl rounded-full bg-black",
                     'shadow-[0_1px_1px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]',
                 )}><SendIcon /></Link> */}
-                <button type={"submit"} className={cn(
-                    "p-2 m-4 text-neutral-50 font-light text-3xl rounded-full bg-black cursor-pointer",
+                <button type={"submit"}
+                style={{
+                    backgroundColor: getContrastText(rgb.r, rgb.g, rgb.b),
+                }}
+                className={cn(
+                    "m-5 h-13 aspect-square text-blue-400 flex justify-center items-center font-light text-3xl rounded-full bg-white cursor-pointer",
                     'shadow-[0_1px_1px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]',
                 )}
                     onClick={handleSubmit}

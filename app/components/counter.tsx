@@ -3,9 +3,10 @@
 import { animate, motion, useMotionValue, useTransform } from "motion/react"
 import { useEffect } from "react"
 
-export default function Counter({ duration, className }: { duration: number, className?: string }) {
+export default function Counter({ duration, className, color }: { duration: number, className?: string, color: string }) {
     const count = useMotionValue(0)
     const formatted = useTransform(() => count.get().toFixed(2))
+
 
     useEffect(() => {
         const controls = animate(count, duration, {
@@ -15,10 +16,10 @@ export default function Counter({ duration, className }: { duration: number, cla
         return () => controls.stop()
     }, [duration])
 
-    return <motion.pre style={text} className={className}>{formatted}</motion.pre>
+    return <motion.pre style={{
+        fontSize: 64,
+        color: color,
+    }} className={className}>{formatted}</motion.pre>
 }
 
-const text = {
-    fontSize: 64,
-    color: "white",
-}
+

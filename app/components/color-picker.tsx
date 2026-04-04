@@ -1,12 +1,12 @@
 'use client'
-import { motion, PanInfo, useMotionValue } from 'motion/react'
+import { motion, PanInfo, TapInfo, useMotionValue } from 'motion/react'
 import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react'
 import { ColorContext } from '../context/color-context'
 import { hsbToRgb } from '@/lib/tools'
 import { cn } from '@/lib/utils'
 import { GameContext } from '../context/game-context'
 
-const ColorPicker = ({className}: {className?: string}) => {
+const ColorPicker = ({ className }: { className?: string }) => {
     const hueConstraintRef = useRef<HTMLDivElement>(null)
     const saturationConstraintRef = useRef<HTMLDivElement>(null)
     const BrighnessConstraintRef = useRef<HTMLDivElement>(null)
@@ -78,30 +78,85 @@ const ColorPicker = ({className}: {className?: string}) => {
 
     }
 
+    const handleHueTap = (e: MouseEvent | TouchEvent | PointerEvent, info: TapInfo) => {
+        if (!hueConstraintRef.current) return
+
+        const rect = hueConstraintRef.current.getBoundingClientRect()
+        const knobSize = 16
+        let y = info.point.y - rect.top - knobSize
+        y = Math.max(0, Math.min(rect.height - knobSize, y))
+        const percent = Math.max(0, Math.min(1, y / (rect.height - knobSize)))
+
+        hueY.set(percent * rect.height)
+        setHsb(prev => ({ ...prev, h: percent * 360 }))
+
+    }
+    const handleSaturationTap = (
+        e: MouseEvent | TouchEvent | PointerEvent,
+        info: TapInfo
+    ) => {
+        if (!saturationConstraintRef.current) return
+
+        const rect = saturationConstraintRef.current.getBoundingClientRect()
+        const knobSize = 16
+
+        let y = info.point.y - rect.top - knobSize
+        y = Math.max(0, Math.min(rect.height - knobSize, y))
+
+        const percent = Math.max(0, Math.min(1, y / (rect.height - knobSize)))
+
+        satY.set(percent * rect.height)
+
+        const sat = 100 - percent * 100
+        setHsb(prev => ({ ...prev, s: sat }))
+    }
+
+    const handleBrightnessTap = (
+        e: MouseEvent | TouchEvent | PointerEvent,
+        info: TapInfo
+    ) => {
+        if (!BrighnessConstraintRef.current) return
+
+        const rect = BrighnessConstraintRef.current.getBoundingClientRect()
+        const knobSize = 16
+
+        let y = info.point.y - rect.top - knobSize
+        y = Math.max(0, Math.min(rect.height - knobSize, y))
+
+        const percent = Math.max(0, Math.min(1, y / (rect.height - knobSize)))
+
+        brightY.set(percent * rect.height)
+
+        const brightness = 100 - percent * 100
+        setHsb(prev => ({ ...prev, b: brightness }))
+    }
+
     useLayoutEffect(() => {
-        if(!hueConstraintRef.current) return;
+        if (!hueConstraintRef.current) return;
         const hueHeight = hueConstraintRef.current.clientHeight
         hueY.set((hsb.h / 360) * hueHeight)
         console.log(hueY.get())
-        
-        if(!saturationConstraintRef.current) return;
+
+        if (!saturationConstraintRef.current) return;
         const satHeight = saturationConstraintRef.current.clientHeight || 1
-        satY.set((1- hsb.s / 100) * satHeight)
+        satY.set((1 - hsb.s / 100) * satHeight)
         console.log(satY.get())
-        
-        
-        if(!BrighnessConstraintRef.current) return;
+
+
+        if (!BrighnessConstraintRef.current) return;
         const brightHeight = BrighnessConstraintRef.current.clientHeight || 1
-        brightY.set((1- hsb.b / 100) * brightHeight)
+        brightY.set((1 - hsb.b / 100) * brightHeight)
         console.log(brightY.get())
 
     }, [round, hsb])
 
 
-    return (<div className={className}>
-        <div ref={hueConstraintRef}
+    return (
+    <div className={className}>
+        <motion.div ref={hueConstraintRef}
+            onTap={(e, info) => handleHueTap(e, info)}
             className={cn(
-                "h-full w-8 relative md:rounded-full overflow-hidden",
+                "h-full w-8 relative md:rounded-full overflow-hidden cursor-pointer",
                 'shadow-[0_4px_4px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
             )}
             style={{
@@ -112,6 +167,9 @@ const ColorPicker = ({className}: {className?: string}) => {
             <motion.div
                 drag="y"
                 dragElastic={0}
+                whileDrag={{
+                    cursor: "grabbing"
+                }}
                 dragMomentum={false}
                 dragConstraints={hueConstraintRef}
                 className={cn(
@@ -119,34 +177,41 @@ const ColorPicker = ({className}: {className?: string}) => {
                     "shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
                 )}
                 style={{
-                    y: hueY
+                    y: hueY,
+                    cursor: "grab"
                 }}
                 onDrag={setHue}
 
             >
 
             </motion.div>
-        </div>
-        <div className={cn(
-            "h-full w-8 relative md:rounded-full overflow-hidden",
+        </motion.div>
+        <motion.div className={cn(
+            "h-full w-8 relative md:rounded-full overflow-hidden cursor-pointer",
             'shadow-[0_4px_4px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
         )}
             ref={saturationConstraintRef}
+            onTap={(e, info) => handleSaturationTap(e, info)}
+
             style={{
                 background: `linear-gradient(to bottom, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}), white)`
             }}
         >
             <motion.div
                 drag="y"
+                whileDrag={{
+                    cursor: "grabbing"
+                }}
                 dragElastic={0}
                 dragMomentum={false}
                 dragConstraints={saturationConstraintRef}
                 className={cn(
-                    "absolute inset-x-0 rounded-full bg-white w-8 h-8 mx-auto cursor-pointer",
+                    "absolute inset-x-0 rounded-full bg-white w-8 h-8 mx-auto",
                     "shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
                 )}
                 style={{
-                    y: satY
+                    y: satY,
+                    cursor: 'grab'
                 }}
                 onDrag={setSaturation}
 
@@ -154,12 +219,14 @@ const ColorPicker = ({className}: {className?: string}) => {
 
             </motion.div>
 
-        </div>
-        <div className={cn(
-            "h-full w-8 relative md:rounded-full overflow-hidden",
+        </motion.div>
+        <motion.div className={cn(
+            "h-full w-8 relative md:rounded-full overflow-hidden cursor-pointer",
             'shadow-[0_4px_4px_rgba(0,0,0,0.05),0_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0_2px_3px_rgba(0,0,0,0.04)]'
         )}
             ref={BrighnessConstraintRef}
+            onTap={(e, info) => handleBrightnessTap(e, info)}
+            
             style={{
                 background: `linear-gradient(to bottom, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}), black)`
 
@@ -168,14 +235,18 @@ const ColorPicker = ({className}: {className?: string}) => {
             <motion.div
                 drag="y"
                 dragElastic={0}
+                whileDrag={{
+                    cursor: "grabbing"
+                }}
                 dragMomentum={false}
                 dragConstraints={BrighnessConstraintRef}
                 className={cn(
-                    "absolute inset-x-0 rounded-full bg-white w-8 h-8 mx-auto cursor-pointer",
+                    "absolute inset-x-0 rounded-full bg-white w-8 h-8 mx-auto",
                     "shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
                 )}
                 style={{
-                    y: brightY
+                    y: brightY,
+                    cursor: 'grab'
                 }}
                 onDrag={setBrighness}
 
@@ -183,7 +254,7 @@ const ColorPicker = ({className}: {className?: string}) => {
 
             </motion.div>
 
-        </div>
+        </motion.div>
     </div>
     )
 }
