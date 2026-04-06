@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { ColorContext } from '../context/color-context'
 import { hsbToRgb } from '@/lib/tools'
 import { calculateScore } from '@/lib/score'
@@ -60,7 +60,11 @@ const ResultCard = () => {
                 }}
 
             >
-                <div className="absolute top-4 left-5 text-lg mix-blend-difference text-shadow-lg">{round}/5</div>
+                <div className="absolute top-4 left-5 text-lg text-shadow-lg"
+                style={{
+                    color: textColor
+                }}
+                >{round}/5</div>
                 <div className='absolute p-4 top-3 right-3 w-fit text-5xl mx-auto'>
                     <span className='text-shadow-sm'
                     style={{
@@ -75,7 +79,7 @@ const ResultCard = () => {
                         <AnimatedNumber content={score} duration={1.5}/>
                     </span>
                 </div>
-                <span className='absolute bottom-4 left-4 text-4xl text-shadow-lg'
+                <span className='absolute bottom-5 left-4 text-3xl text-shadow-lg'
                     style={{
                         color: textColor
                     }}
@@ -86,7 +90,7 @@ const ResultCard = () => {
                     backgroundColor: `rgb(${targetRgb.r}, ${targetRgb.g}, ${targetRgb.b})`,
                 }}
             >
-                <span className='absolute bottom-4 left-4 text-4xl text-shadow-lg'
+                <span className='absolute bottom-5 left-4 text-3xl text-shadow-lg'
                     style={{
                         color: targetTextColor
                     }}

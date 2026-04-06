@@ -11,6 +11,7 @@ import { GameContext } from "../context/game-context";
 import { calculateScore } from "@/lib/score";
 import { getContrastText } from "./result-card";
 import { motion } from "motion/react";
+import { generateRandomColor } from "./target";
 
 
 
@@ -34,11 +35,7 @@ const Game = () => {
         submitScore(score)
     }
     useEffect(() => {
-        const newColor = {
-            h: Math.floor(Math.random() * 361),
-            s: Math.floor(Math.random() * 101),
-            b: Math.floor(Math.random() * 101),
-        }
+        const newColor = generateRandomColor()
 
         requestAnimationFrame(() => {
             setHsb(newColor)

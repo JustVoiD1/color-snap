@@ -9,8 +9,8 @@ import { motion, useAnimate } from 'motion/react'
 import { getContrastText } from './result-card'
 export const generateRandomColor = (): HSBColor => {
     const h = Math.floor(Math.random() * 361)
-    const s = Math.floor(Math.random() * 101)
-    const b = Math.floor(Math.random() * 101)
+    const s = Math.floor(Math.random() * 60) + 40
+    const b = Math.floor(Math.random() * 60) + 30
     return { h, s, b }
 }
 const Target = () => {
@@ -40,6 +40,12 @@ const Target = () => {
         }, { duration: 0.3 })
 
         timerRef.current = setTimeout(async () => {
+            animate(".counter", {
+                translateX: 100,
+                opacity: 0
+            }, {
+                duration: 0.3
+            })
             await animate(scope.current, {
             backgroundColor: `#000`
         }, { duration: 0.3 })
@@ -113,7 +119,10 @@ const Target = () => {
                     className="go text-white opacity-0 uppercase">Go!</motion.div>
 
             </div>
-            {showCounter && <Counter duration={5} color={targetTextColor} className='absolute top-2 right-5 w-fit h-fit' />}
+            {showCounter && <motion.div 
+            className='counter absolute top-2 right-5 w-fit h-fit'>
+                <Counter duration={5} color={targetTextColor} />
+                </motion.div>}
         </div>
     )
 }

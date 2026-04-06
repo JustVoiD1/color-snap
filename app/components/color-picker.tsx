@@ -60,7 +60,7 @@ const ColorPicker = ({ className }: { className?: string }) => {
 
 
         const sat = 100 - percent
-        console.log(sat)
+        // console.log(sat)
         setHsb(prev => ({ ...prev, s: Math.max(0, Math.min(100, sat)) }))
     }
 
@@ -135,18 +135,18 @@ const ColorPicker = ({ className }: { className?: string }) => {
         if (!hueConstraintRef.current) return;
         const hueHeight = hueConstraintRef.current.clientHeight
         hueY.set((hsb.h / 360) * hueHeight)
-        console.log(hueY.get())
+        // console.log(hueY.get())
 
         if (!saturationConstraintRef.current) return;
         const satHeight = saturationConstraintRef.current.clientHeight || 1
         satY.set((1 - hsb.s / 100) * satHeight)
-        console.log(satY.get())
+        // console.log(satY.get())
 
 
         if (!BrighnessConstraintRef.current) return;
         const brightHeight = BrighnessConstraintRef.current.clientHeight || 1
         brightY.set((1 - hsb.b / 100) * brightHeight)
-        console.log(brightY.get())
+        // console.log(brightY.get())
 
     }, [round, hsb])
 
